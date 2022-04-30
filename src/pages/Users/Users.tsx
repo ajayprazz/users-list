@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "react-query";
-import { request, gql } from "graphql-request";
+import { useUsersQuery, User } from "../../generated/graphql";
 import { PlusOutlined } from "@ant-design/icons";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import CustomButton from "../../components/CustomButton/CustomButton";
@@ -8,54 +7,14 @@ import UsersTable from "../../components/UsersTable/UsersTable";
 import Loader from "../../components/Loader/Loader";
 import "./Users.css";
 
-type User = {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  phone: string;
-  website: string;
-  address: { street: string };
-};
-
-const useUsers = () => {
-  return useQuery<User[], Error>("users", async () => {
-    const {
-      users: { data },
-    } = await request(
-      "https://graphqlzero.almansi.me/api",
-      gql`
-        query {
-          users {
-            data {
-              id
-              name
-              username
-              email
-              phone
-              website
-              address {
-                street
-              }
-            }
-          }
-        }
-      `
-    );
-
-    return data;
-  });
-};
-
 const Users = () => {
   const [userCheckList, setUserCheckList] = useState<boolean[]>([]);
   const [globalChecked, setGlobalChecked] = useState<boolean>(false);
 
-  const [filteredUsers, setFilteredUsers] = useState<User[] | undefined>([]);
-
+  const [filteredUsers, setFilteredUsers] = useState<any>([]);
   const [searchStr, setSearchStr] = useState<string>("");
 
-  const { data, error, isLoading } = useUsers();
+  const { data, error, isLoading } = useUsersQuery();
 
   const handleCheckChange = (index: number, checked: boolean) => {
     const temp: boolean[] = [...userCheckList];
@@ -78,8 +37,8 @@ const Users = () => {
   const handleSearch = (str: string) => {
     if (str) {
       setFilteredUsers(
-        data?.filter(
-          (user: User) =>
+        data?.users?.data?.filter(
+          (user: any) =>
             user.name.toLowerCase().includes(str) ||
             user.username.toLowerCase().includes(str) ||
             user.email.toLowerCase().includes(str) ||
@@ -89,14 +48,14 @@ const Users = () => {
         )
       );
     } else {
-      setFilteredUsers(data);
+      setFilteredUsers(data?.users?.data);
     }
   };
 
   useEffect(() => {
-    if (data) {
+    if (data?.users?.data) {
       setFilteredUsers(
-        data.sort((a: User, b: User) =>
+        data?.users?.data.sort((a: any, b: any) =>
           a.username.toLowerCase() > b.username.toLowerCase() ? 1 : -1
         )
       );

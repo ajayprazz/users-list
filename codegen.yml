@@ -1,0 +1,15 @@
+overwrite: true
+schema: "https://graphqlzero.almansi.me/api"
+documents: "src/**/*.graphql"
+generates:
+  src/generated/graphql.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-react-query"
+    config:
+      fetcher:
+        endpoint: "https://graphqlzero.almansi.me/api"
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"

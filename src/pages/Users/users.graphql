@@ -1,13 +1,15 @@
 query Users {
   users {
-    {
-        id
-        name
-        username
-        email
-        phone
-        website
-        address: { street };
+      data {
+      id
+      name
+      username
+      email
+      phone
+      website
+      address {
+        street
+      }
     }
   }
 }

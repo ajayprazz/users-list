@@ -1,15 +1,6 @@
 import { Checkbox } from "antd";
+import { User } from "../../generated/graphql";
 import "./UsersTable.css";
-
-type User = {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  phone: string;
-  website: string;
-  address: { street: string };
-};
 
 const UsersTable = ({
   users,
@@ -18,7 +9,7 @@ const UsersTable = ({
   handleGlobalCheck,
   handleCheck,
 }: {
-  users: User[] | undefined;
+  users: User[] | null | undefined;
   globalChecked: boolean;
   checkList: boolean[];
   handleGlobalCheck: Function;
@@ -54,7 +45,7 @@ const UsersTable = ({
             <div className="table-cell">{user.email}</div>
             <div className="table-cell">{user.phone}</div>
             <div className="table-cell">{user.website}</div>
-            <div className="table-cell">{user.address.street}</div>
+            <div className="table-cell">{user.address?.street}</div>
           </div>
         ))}
       </div>
