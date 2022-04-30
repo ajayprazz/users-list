@@ -1,0 +1,33 @@
+.table-container {
+  margin: 1rem 0;
+  overflow-x: auto;
+}
+
+.table-header,
+.table-row {
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid #e0e5eb;
+}
+
+.table-header .table-cell {
+  background-color: #eef1f7;
+  font-weight: 700;
+}
+
+.table-header .table-cell,
+.table-row .table-cell {
+  padding: 0.5rem 1rem;
+}
+
+.table-header .check-col,
+.table-body .table-row .check-col {
+  flex-basis: 4%;
+  min-width: 50px;
+}
+
+.table-header .table-cell:not(.check-col),
+.table-body .table-row .table-cell:not(.check-col) {
+  flex-basis: 16%;
+  min-width: 200px;
+}
